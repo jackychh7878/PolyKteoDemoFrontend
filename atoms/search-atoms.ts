@@ -1,5 +1,5 @@
-import { movies_data } from "@/movies";
 import { atom } from "jotai";
+import { SearchResult } from "@/types/search";
 
 export enum Action {
   SEARCH = "SEARCH",
@@ -8,9 +8,17 @@ export enum Action {
 
 // Search Handler Function
 const searchHandler = async (query: string) => {
-  const res = await fetch(`/api/search?query=${query}`);
-  const { data } = await res.json();
-  return data;
+  try {
+    const res = await fetch(`https://steveykyu.app.n8n.cloud/webhook/73551d63-6381-4a73-bfde-164e6e3ccf6d?query=${query}`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch search results');
+    }
+    const data = await res.json();
+    return data.output?.output || [];
+  } catch (error) {
+    console.error("Error fetching search results:", error);
+    return [];
+  }
 };
 
 const searchActiveAtom = atom(false);
@@ -37,9 +45,10 @@ export const searchAtom = atom(
       }
     } else if (action === Action.RESET) {
       set(searchActiveAtom, false);
-      set(moviesAtom, movies_data);
+      set(moviesAtom, []);
     }
   }
 );
 
-export const moviesAtom = atom(movies_data);
+// Initialize with an empty array of SearchResult
+export const moviesAtom = atom<SearchResult[]>([]);
