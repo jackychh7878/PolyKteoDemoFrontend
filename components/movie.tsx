@@ -73,7 +73,7 @@ const Movie = ({ result }: { result: SearchResult }) => {
             onClick={showContent}
             className="inline-block px-3 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors w-fit"
           >
-            View Patent Summary
+            View
           </button>
         )}
       </div>
