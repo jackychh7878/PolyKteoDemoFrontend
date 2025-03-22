@@ -9,12 +9,28 @@ export enum Action {
 // Search Handler Function
 const searchHandler = async (query: string) => {
   try {
-    const res = await fetch(`https://steveykyu.app.n8n.cloud/webhook/73551d63-6381-4a73-bfde-164e6e3ccf6d?query=${query}`);
+    // Use our local API proxy instead of calling the external API directly
+    const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
     if (!res.ok) {
       throw new Error('Failed to fetch search results');
     }
     const data = await res.json();
-    return data.output?.output || [];
+    
+    // Transform the data to match the expected SearchResult format
+    return data.map((item: any) => ({
+      title: item.official_title || '',
+      description: `Inventor: ${item.inventor || 'Unknown'} | Department: ${item.department || 'N/A'} | Tech Sector: ${item.tech_sector || 'N/A'}`,
+      official_title: item.official_title || '',
+      sys_id: item.sys_id,
+      query: query,
+      ai_summary: item.ai_summary || '',
+      country_region: item.country_region || '',
+      department: item.department || '',
+      google_patent_link: item.google_patent_link || '',
+      inventor: item.inventor || '',
+      similarity: item.similarity || 0,
+      tech_sector: item.tech_sector || ''
+    }));
   } catch (error) {
     console.error("Error fetching search results:", error);
     return [];

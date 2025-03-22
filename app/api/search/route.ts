@@ -1,8 +1,5 @@
-import { supabaseClient } from "@/lib/supabase/supabase-client";
 import { NextResponse } from "next/server";
-import { Configuration, OpenAIApi } from "openai";
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-const openAi = new OpenAIApi(configuration);
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query");
@@ -11,24 +8,28 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "No query provided" });
   }
 
-  // Create Embedding
-  const embeddingResponse = await openAi.createEmbedding({
-    model: "text-embedding-ada-002",
-    input: query,
-  });
+  try {
+    // Forward the request to the PolyKteo API
+    const response = await fetch(
+      `https://poly-kteo-demo-e2ach4ewcuayb3b6.eastasia-01.azurewebsites.net/search?query=${encodeURIComponent(query)}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  const [{ embedding }] = embeddingResponse.data.data;
+    if (!response.ok) {
+      throw new Error(`API responded with status: ${response.status}`);
+    }
 
-  // Search Supabase
-  const { data, error } = await supabaseClient.rpc("search_movies", {
-    query_embedding: embedding,
-    similarity_threshold: 0.75,
-    match_count: 3,
-  });
-
-  if (data) {
-    return NextResponse.json({ data });
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error fetching from PolyKteo API:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch data from PolyKteo API" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({ error });
 }

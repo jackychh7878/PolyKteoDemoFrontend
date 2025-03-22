@@ -1,4 +1,10 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "appService.zipIgnorePattern": [
+    "node_modules{,/**}",
+    ".vscode{,/**}"
+  ],
+  "appService.defaultWebAppToDeploy": "/subscriptions/a565c6c5-b740-4d5f-ae59-8a2bcf29643f/resourceGroups/POC/providers/Microsoft.Web/sites/poly-kteo-frontend",
+  "appService.deploySubpath": "."
 }

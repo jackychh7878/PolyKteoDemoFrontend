@@ -6,6 +6,7 @@ export const metadata = {
 };
 
 import { Inter } from "next/font/google";
+import DifyChatbot from "@/components/DifyChatbot";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -16,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <DifyChatbot />
+      </body>
     </html>
   );
 }
