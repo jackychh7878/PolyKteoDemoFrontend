@@ -142,6 +142,18 @@ const Movie = ({ result }: { result: SearchResult }) => {
         </h2>
         <p className="text-sm text-neutral-400 mb-4">{result.description || 'No Description'}</p>
         
+        {/* Display image if available */}
+        {(result.image || (result.ai_summary && extractImageUrls(result.ai_summary).urls.length > 0)) && (
+          <div className="relative h-40 w-full mb-4 bg-neutral-900 rounded overflow-hidden">
+            <Image
+              src={result.image || extractImageUrls(result.ai_summary || '').urls[0] || ''}
+              alt={result.title || 'Preview image'}
+              fill
+              className="object-contain"
+            />
+          </div>
+        )}
+        
         <button 
           onClick={showContent}
           className="inline-block px-3 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors w-fit"

@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["images-na.ssl-images-amazon.com"],
+    domains: ["images-na.ssl-images-amazon.com", "patentimages.storage.googleapis.com"],
   },
 };
 
