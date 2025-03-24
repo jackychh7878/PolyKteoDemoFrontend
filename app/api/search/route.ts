@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query");
-  const confidenceLevel = searchParams.get("confidence_level") || "0.4";
+  const confidenceLevel = searchParams.get("confidence_level") || "0.25";
 
   if (!query) {
     return NextResponse.json({ error: "No query provided" });

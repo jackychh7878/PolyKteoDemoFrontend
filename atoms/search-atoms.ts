@@ -7,7 +7,7 @@ export enum Action {
 }
 
 // Search Handler Function
-const searchHandler = async (query: string, confidenceLevel: number = 0.2) => {
+const searchHandler = async (query: string, confidenceLevel: number = 0.25) => {
   try {
     // Use our local API proxy instead of calling the external API directly
     const res = await fetch(`/api/search?query=${encodeURIComponent(query)}&confidence_level=${confidenceLevel}`);
@@ -46,8 +46,8 @@ export const queryAtom = atom("", (_get, set, query) => {
   set(queryAtom, query);
 });
 
-// Add a new atom to store the confidence level with a default value of 0.2
-export const confidenceLevelAtom = atom<number>(0.2);
+// Add a new atom to store the confidence level with a default value of 0.25
+export const confidenceLevelAtom = atom<number>(0.25);
 
 export const searchAtom = atom(
   (get) => get(searchActiveAtom),
