@@ -21,14 +21,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <header className="header-container">
           <div className="logo-left">
-            <Image 
-              src="https://polyukteo.10u.org/kteo/polyu-ip-portal/themes/polyurio/static/static/images/logo.png"
-              alt="KTEO Logo"
-              width={400}
-              height={110}
-              priority
-              unoptimized={true}
-            />
+            {/*<Image*/}
+            {/*    src="https://polyukteo.10u.org/kteo/polyu-ip-portal/themes/polyurio/static/static/images/logo.png"*/}
+            {/*    alt="KTEO Logo"*/}
+            {/*    width={400}*/}
+            {/*    height={110}*/}
+            {/*    priority*/}
+            {/*    unoptimized={true}*/}
+            {/*/>*/}
+            <h1 className="text-3xl font-bold text-white">Knowledge Search</h1>
           </div>
           <div className="logo-right">
             <Image 
@@ -41,11 +42,11 @@ export default function RootLayout({
             />
           </div>
         </header>
-        <div className="bg-[#a02337] py-12">
-          <div className="max-w-7xl mx-auto px-8">
-            <h1 className="text-3xl font-bold text-white">Knowledge Transfer</h1>
-          </div>
-        </div>
+        {/*<div className="bg-[#a02337] py-12">*/}
+        {/*  <div className="max-w-7xl mx-auto px-8">*/}
+        {/*    <h1 className="text-3xl font-bold text-white">Knowledge Search</h1>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
         {children}
         <DifyChatbot />
       </body>
