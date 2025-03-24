@@ -4,15 +4,24 @@ import SearchBar from "@/components/search-bar";
 export default function Home() {
   return (
     <main>
-      {/* Container */}
-      <div className="w-full px-8 py-10 mx-auto max-w-7xl">
-        <h1 className="text-3xl font-bold text-neutral-50">🔍 PolyU KTEO Search Engine</h1>
-        <p className="text-lg text-neutral-500 mt-2">
-          Enter your search query below to find relevant results.
-        </p>
-        <SearchBar />
-        {/* List */}
-        <Movies />
+      {/* Main Content Container */}
+      <div className="main-content">
+        <div className="mt-6 mb-8">
+          <h2 className="page-title">Find a Patent</h2>
+          <p className="page-subtitle">
+            Enter your search query below to find relevant patents.
+          </p>
+        </div>
+        
+        <div className="search-container p-4 bg-white rounded-md shadow-sm">
+          <SearchBar />
+        </div>
+        
+        {/* Results List */}
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold text-[#a02337] mb-4">Latest Tech</h3>
+          <Movies />
+        </div>
       </div>
     </main>
   );

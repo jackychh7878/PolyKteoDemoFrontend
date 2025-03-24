@@ -4,6 +4,32 @@
 
 @layer base {
   body {
-    @apply bg-neutral-900;
+    @apply bg-white;
+  }
+}
+
+@layer components {
+  .header-container {
+    @apply bg-[#a02337] text-white py-4 px-6 flex justify-between items-center;
+  }
+  
+  .main-content {
+    @apply w-full px-8 py-6 mx-auto max-w-7xl;
+  }
+  
+  .page-title {
+    @apply text-3xl font-bold text-[#a02337];
+  }
+  
+  .page-subtitle {
+    @apply text-lg text-gray-600 mt-2;
+  }
+  
+  .search-button {
+    @apply bg-[#a02337] hover:bg-[#8a1e2f] text-white;
+  }
+  
+  .search-container {
+    @apply border border-gray-300 rounded-md;
   }
 }

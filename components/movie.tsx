@@ -107,7 +107,7 @@ const Movie = ({ result }: { result: SearchResult }) => {
   // Function to render markdown links as actual HTML links
   const renderLinks = (text: string) => {
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    return text.replace(linkRegex, '<a href="$2" target="_blank" class="text-blue-400 hover:underline">$1</a>');
+    return text.replace(linkRegex, '<a href="$2" target="_blank" class="text-[#a02337] hover:underline">$1</a>');
   };
 
   // Function to parse and format the content
@@ -135,16 +135,16 @@ const Movie = ({ result }: { result: SearchResult }) => {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-md shadow-md bg-neutral-800 p-4">
+    <div className="relative overflow-hidden rounded-md shadow-md bg-white border border-gray-200 p-4">
       <div className="flex flex-col justify-between w-full h-full">
-        <h2 className="text-xl font-semibold text-neutral-200 mb-2">
+        <h2 className="text-xl font-semibold text-[#a02337] mb-2">
           {result.official_title || result.title || 'No Title'}
         </h2>
-        <p className="text-sm text-neutral-400 mb-4">{result.description || 'No Description'}</p>
+        <p className="text-sm text-gray-600 mb-4">{result.description || 'No Description'}</p>
         
         <button 
           onClick={showContent}
-          className="inline-block px-3 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors w-fit"
+          className="search-button inline-block px-3 py-2 text-sm rounded-md w-fit"
         >
           View
         </button>
@@ -153,12 +153,12 @@ const Movie = ({ result }: { result: SearchResult }) => {
       {/* Popup overlay */}
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-800 rounded-lg p-6 max-w-6xl w-[95%] max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg p-6 max-w-6xl w-[95%] max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-2xl font-bold text-white">{patentData?.official_title || result.official_title || result.title || 'Patent Summary'}</h3>
+              <h3 className="text-2xl font-bold text-[#a02337]">{patentData?.official_title || result.official_title || result.title || 'Patent Summary'}</h3>
               <button 
                 onClick={() => setShowPopup(false)}
-                className="text-neutral-400 hover:text-white text-xl"
+                className="text-gray-500 hover:text-[#a02337] text-xl"
               >
                 ✕
               </button>
@@ -167,9 +167,9 @@ const Movie = ({ result }: { result: SearchResult }) => {
             {/* Patent Images Gallery */}
             {!isLoading && patentImages.length > 0 && (
               <div className="mb-6">
-                <h4 className="text-lg font-semibold mb-3 text-white">Patent Figures</h4>
+                <h4 className="text-lg font-semibold mb-3 text-[#a02337]">Patent Figures</h4>
                 <div className="relative">
-                  <div className="relative h-[400px] w-full bg-neutral-900 rounded-lg overflow-hidden mb-2">
+                  <div className="relative h-[400px] w-full bg-gray-100 rounded-lg overflow-hidden mb-2">
                     <img 
                       src={patentImages[activeImageIndex]} 
                       alt={`Patent figure ${activeImageIndex + 1}`}
@@ -182,14 +182,14 @@ const Movie = ({ result }: { result: SearchResult }) => {
                     <>
                       <button 
                         onClick={() => setActiveImageIndex(prev => (prev === 0 ? patentImages.length - 1 : prev - 1))}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-[#a02337] bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-90"
                         aria-label="Previous image"
                       >
                         ←
                       </button>
                       <button 
                         onClick={() => setActiveImageIndex(prev => (prev === patentImages.length - 1 ? 0 : prev + 1))}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#a02337] bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-90"
                         aria-label="Next image"
                       >
                         →
@@ -204,7 +204,7 @@ const Movie = ({ result }: { result: SearchResult }) => {
                     <button 
                       key={index}
                       onClick={() => setActiveImageIndex(index)}
-                      className={`flex-shrink-0 h-16 w-16 rounded-md overflow-hidden border-2 ${activeImageIndex === index ? 'border-blue-500' : 'border-transparent'}`}
+                      className={`flex-shrink-0 h-16 w-16 rounded-md overflow-hidden border-2 ${activeImageIndex === index ? 'border-[#a02337]' : 'border-transparent'}`}
                     >
                       <img 
                         src={img} 
@@ -214,22 +214,64 @@ const Movie = ({ result }: { result: SearchResult }) => {
                     </button>
                   ))}
                 </div>
-                <p className="text-sm text-neutral-400 mt-1">Figure {activeImageIndex + 1} of {patentImages.length}</p>
+                <p className="text-sm text-gray-600 mt-1">Figure {activeImageIndex + 1} of {patentImages.length}</p>
               </div>
             )}
             
-            <div className="text-neutral-200">
-              {isLoading ? (
-                <p className="text-center py-4">Loading patent information...</p>
-              ) : patentData ? (
-                <div 
-                  className="prose prose-invert max-w-none" 
-                  dangerouslySetInnerHTML={{ __html: formatContent(patentData.ai_summary) }}
-                />
-              ) : (
-                <p className="text-center py-4">No patent information available</p>
-              )}
-            </div>
+            {/* Patent Details */}
+            {isLoading ? (
+              <div className="flex justify-center items-center py-10">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#a02337]"></div>
+              </div>
+            ) : (
+              <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2 text-[#a02337]">Patent Information</h4>
+                    <div className="bg-gray-50 p-4 rounded-md">
+                      <p className="mb-2"><span className="font-medium">Inventor:</span> {patentData?.inventor || 'N/A'}</p>
+                      <p className="mb-2"><span className="font-medium">Department:</span> {patentData?.department || 'N/A'}</p>
+                      <p className="mb-2"><span className="font-medium">Tech Sector:</span> {patentData?.tech_sector || 'N/A'}</p>
+                      <p className="mb-2"><span className="font-medium">Country/Region:</span> {patentData?.country_region || 'N/A'}</p>
+                      {patentData?.google_patent_link && (
+                        <p className="mb-2">
+                          <span className="font-medium">Google Patent:</span>{' '}
+                          <a 
+                            href={patentData.google_patent_link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-[#a02337] hover:underline"
+                          >
+                            View on Google Patents
+                          </a>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2 text-[#a02337]">Patent Details</h4>
+                    <div className="bg-gray-50 p-4 rounded-md">
+                      <p className="mb-2"><span className="font-medium">Patent Number:</span> {patentData?.patent_number || 'N/A'}</p>
+                      <p className="mb-2"><span className="font-medium">Patent Title:</span> {patentData?.patent_title || 'N/A'}</p>
+                      <p className="mb-2"><span className="font-medium">Patent Date:</span> {patentData?.patent_date || 'N/A'}</p>
+                      <p className="mb-2"><span className="font-medium">Patent Status:</span> {patentData?.patent_status || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* AI Summary */}
+                {patentData?.ai_summary && (
+                  <div>
+                    <h4 className="text-lg font-semibold mb-3 text-[#a02337]">Patent Summary</h4>
+                    <div 
+                      className="prose prose-[#a02337] max-w-none"
+                      dangerouslySetInnerHTML={{ __html: formatContent(patentData.ai_summary) }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

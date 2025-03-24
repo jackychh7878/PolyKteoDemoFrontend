@@ -29,20 +29,20 @@ const SearchBar = () => {
   }, [keyPressHandler]);
 
   return (
-    <div className="w-full mt-8">
-      <div className="flex items-center w-full gap-1 px-4 border rounded-md group focus-within:border-neutral-400 bg-neutral-800 focus-within:outline-4 focus-within:outline-neutral-200 border-neutral-600">
-        <Search size="16" color="#e5e5e5" />
+    <div className="w-full">
+      <div className="flex items-center w-full gap-1 px-4 border rounded-md group focus-within:border-blue-400 bg-white focus-within:outline-4 focus-within:outline-blue-200 border-gray-300">
+        <Search size="16" color="#1e40af" />
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Type your search query here..."
-          className="w-full px-4 py-3 bg-transparent rounded-md text-neutral-50 group focus:outline-none"
+          placeholder="What are you looking for..."
+          className="w-full px-4 py-3 bg-transparent rounded-md text-gray-800 group focus:outline-none"
         />
         {isSearching ? (
           <div role="status">
             <svg
               aria-hidden="true"
-              className="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"
+              className="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ const SearchBar = () => {
             onClick={() => {
               searchHandler(Action.SEARCH);
             }}
-            className="inline-block px-3 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            className="search-button inline-block px-3 py-2 text-sm rounded-md transition-colors"
           >
             Search
           </button>
@@ -71,7 +71,7 @@ const SearchBar = () => {
       </div>
       
       <div className="flex items-center w-full mt-2 px-4 py-2 gap-4">
-        <label htmlFor="confidence-slider" className="text-sm text-neutral-300">
+        <label htmlFor="confidence-slider" className="text-sm text-gray-600">
             Relevance: {confidenceLevel.toFixed(2)}
         </label>
         <input
@@ -79,10 +79,10 @@ const SearchBar = () => {
           type="range"
           min="0"
           max="0.5"
-          step="0.1"
+          step="0.01"
           value={confidenceLevel}
           onChange={(e) => setConfidenceLevel(parseFloat(e.target.value))}
-          className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer"
+          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#a02337]"
         />
       </div>
     </div>

@@ -7,7 +7,7 @@ export enum Action {
 }
 
 // Search Handler Function
-const searchHandler = async (query: string, confidenceLevel: number = 0.4) => {
+const searchHandler = async (query: string, confidenceLevel: number = 0.2) => {
   try {
     // Use our local API proxy instead of calling the external API directly
     const res = await fetch(`/api/search?query=${encodeURIComponent(query)}&confidence_level=${confidenceLevel}`);
