@@ -249,25 +249,27 @@ const Movie = ({ result }: { result: SearchResult }) => {
                     </div>
                   </div>
                   
-                  <div>
-                    <h4 className="text-lg font-semibold mb-2 text-[#a02337]">Patent Details</h4>
-                    <div className="bg-gray-50 p-4 rounded-md">
-                      <p className="mb-2"><span className="font-medium">Patent Number:</span> {patentData?.patent_number || 'N/A'}</p>
-                      <p className="mb-2"><span className="font-medium">Patent Title:</span> {patentData?.patent_title || 'N/A'}</p>
-                      <p className="mb-2"><span className="font-medium">Patent Date:</span> {patentData?.patent_date || 'N/A'}</p>
-                      <p className="mb-2"><span className="font-medium">Patent Status:</span> {patentData?.patent_status || 'N/A'}</p>
-                    </div>
-                  </div>
+                  {/*<div>*/}
+                  {/*  <h4 className="text-lg font-semibold mb-2 text-[#a02337]">Patent Details</h4>*/}
+                  {/*  <div className="bg-gray-50 p-4 rounded-md">*/}
+                  {/*    <p className="mb-2"><span className="font-medium">Patent Number:</span> {patentData?.patent_number || 'N/A'}</p>*/}
+                  {/*    <p className="mb-2"><span className="font-medium">Patent Title:</span> {patentData?.patent_title || 'N/A'}</p>*/}
+                  {/*    <p className="mb-2"><span className="font-medium">Patent Date:</span> {patentData?.patent_date || 'N/A'}</p>*/}
+                  {/*    <p className="mb-2"><span className="font-medium">Patent Status:</span> {patentData?.patent_status || 'N/A'}</p>*/}
+                  {/*  </div>*/}
+                  {/*</div>*/}
                 </div>
                 
                 {/* AI Summary */}
                 {patentData?.ai_summary && (
                   <div>
                     <h4 className="text-lg font-semibold mb-3 text-[#a02337]">Patent Summary</h4>
+                    <div className="bg-gray-50 p-4 rounded-md">
                     <div 
                       className="prose prose-[#a02337] max-w-none"
                       dangerouslySetInnerHTML={{ __html: formatContent(patentData.ai_summary) }}
                     />
+                    </div>
                   </div>
                 )}
               </div>
