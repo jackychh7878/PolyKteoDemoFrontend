@@ -7,10 +7,10 @@ export enum Action {
 }
 
 // Search Handler Function
-const searchHandler = async (query: string) => {
+const searchHandler = async (query: string, confidenceLevel: number = 0.4) => {
   try {
     // Use our local API proxy instead of calling the external API directly
-    const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+    const res = await fetch(`/api/search?query=${encodeURIComponent(query)}&confidence_level=${confidenceLevel}`);
     if (!res.ok) {
       throw new Error('Failed to fetch search results');
     }
@@ -46,16 +46,20 @@ export const queryAtom = atom("", (_get, set, query) => {
   set(queryAtom, query);
 });
 
+// Add a new atom to store the confidence level with a default value of 0.2
+export const confidenceLevelAtom = atom<number>(0.2);
+
 export const searchAtom = atom(
   (get) => get(searchActiveAtom),
   async (get, set, action: Action) => {
     const query = get(queryAtom);
+    const confidenceLevel = get(confidenceLevelAtom);
     if (action === Action.SEARCH) {
       if (query.length === 0) {
         return;
       } else {
         set(searchActiveAtom, true);
-        const data = await searchHandler(query);
+        const data = await searchHandler(query, confidenceLevel);
         set(moviesAtom, data);
         set(searchActiveAtom, false);
       }

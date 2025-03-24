@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query");
+  const confidenceLevel = searchParams.get("confidence_level") || "0.4";
 
   if (!query) {
     return NextResponse.json({ error: "No query provided" });
@@ -11,7 +12,7 @@ export async function GET(request: Request) {
   try {
     // Forward the request to the PolyKteo API
     const response = await fetch(
-      `https://poly-kteo-demo-e2ach4ewcuayb3b6.eastasia-01.azurewebsites.net/search?query=${encodeURIComponent(query)}`,
+      `https://poly-kteo-demo-e2ach4ewcuayb3b6.eastasia-01.azurewebsites.net/search?query=${encodeURIComponent(query)}&confidence_level=${confidenceLevel}`,
       {
         headers: {
           "Content-Type": "application/json",

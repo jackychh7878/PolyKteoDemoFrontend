@@ -1,5 +1,5 @@
 "use client";
-import { Action, queryAtom, searchAtom } from "@/atoms/search-atoms";
+import { Action, queryAtom, searchAtom, confidenceLevelAtom } from "@/atoms/search-atoms";
 import { useAtom } from "jotai";
 import { Search } from "lucide-react";
 import { useCallback, useEffect } from "react";
@@ -7,6 +7,7 @@ import { useCallback, useEffect } from "react";
 const SearchBar = () => {
   const [query, setQuery] = useAtom(queryAtom);
   const [isSearching, searchHandler] = useAtom(searchAtom);
+  const [confidenceLevel, setConfidenceLevel] = useAtom(confidenceLevelAtom);
 
   const keyPressHandler = useCallback(
     (e: KeyboardEvent) => {
@@ -67,6 +68,22 @@ const SearchBar = () => {
             Search
           </button>
         )}
+      </div>
+      
+      <div className="flex items-center w-full mt-2 px-4 py-2 gap-4">
+        <label htmlFor="confidence-slider" className="text-sm text-neutral-300">
+            Relevance: {confidenceLevel.toFixed(2)}
+        </label>
+        <input
+          id="confidence-slider"
+          type="range"
+          min="0"
+          max="0.5"
+          step="0.1"
+          value={confidenceLevel}
+          onChange={(e) => setConfidenceLevel(parseFloat(e.target.value))}
+          className="w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer"
+        />
       </div>
     </div>
   );
