@@ -33,7 +33,7 @@ export default function RootLayout({
           </div>
           <div className="logo-right">
             <Image 
-              src="https://polyukteo.10u.org/kteo/polyu-ip-portal/themes/polyurio/static/static/images/fact-logo-1x.png"
+              src="https://www.polyu.edu.hk/assets/img/fact-logo-2x.png"
               alt="PolyU Logo"
               width={400}
               height={110}
