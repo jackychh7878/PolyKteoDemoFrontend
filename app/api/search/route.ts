@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   try {
     // Forward the request to the PolyKteo API
     const response = await fetch(
-      `https://poly-kteo-demo-e2ach4ewcuayb3b6.eastasia-01.azurewebsites.net/search?query=${encodeURIComponent(query)}&confidence_level=${confidenceLevel}`,
+      `https://poly-kteo-poc-d4c9fkgrbaahe5hg.eastasia-01.azurewebsites.net/search?query=${encodeURIComponent(query)}&confidence_level=${confidenceLevel}`,
       {
         headers: {
           "Content-Type": "application/json",
