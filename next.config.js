@@ -3,9 +3,11 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  images: {
-    domains: ["images-na.ssl-images-amazon.com", "polyukteo.10u.org"],
-  },
+  output: 'standalone',
+  reactStrictMode: true,
+  // images: {
+  //   domains: ["images-na.ssl-images-amazon.com", "polyukteo.10u.org"],
+  // },
 };
 
 module.exports = nextConfig;
