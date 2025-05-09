@@ -98,10 +98,14 @@ const Movie = ({ result }: { result: SearchResult }) => {
     }
   };
 
-  const showContent = () => {
-    setIsLoading(true);
-    processPatentData();
-    setShowPopup(true);
+  const handleViewClick = () => {
+    if (result.is_tech && result.google_patent_link) {
+      window.open(result.google_patent_link, '_blank');
+    } else {
+      setIsLoading(true);
+      processPatentData();
+      setShowPopup(true);
+    }
   };
 
   // Function to render markdown links as actual HTML links
@@ -137,16 +141,51 @@ const Movie = ({ result }: { result: SearchResult }) => {
   return (
     <div className="relative overflow-hidden rounded-md shadow-md bg-white border border-gray-200 p-4">
       <div className="flex flex-col justify-between w-full h-full">
-        <h2 className="text-xl font-semibold text-[#a02337] mb-2">
-          {result.official_title || result.title || 'No Title'}
-        </h2>
-        <p className="text-sm text-gray-600 mb-4">{result.description || 'No Description'}</p>
+        <div>
+          <h2 className="text-xl font-semibold text-[#a02337] mb-2">
+            {result.official_title || result.title || 'No Title'}
+          </h2>
+          
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {result.tech_sector && (
+              <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                {result.tech_sector}
+              </span>
+            )}
+            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+              result.is_tech 
+                ? 'bg-blue-100 text-blue-800' 
+                : 'bg-green-100 text-green-800'
+            }`}>
+              {result.is_tech ? 'Technology' : 'Patent'}
+            </span>
+          </div>
+
+          {/* Similarity Score */}
+          {result.similarity !== undefined && (
+            <div className="mb-3">
+              <span className="text-sm text-gray-600">
+                Relevance: {(result.similarity * 100).toFixed(1)}%
+              </span>
+            </div>
+          )}
+
+          {/* Short Summary */}
+          {result.ai_short_summary && (
+            <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+              {result.ai_short_summary}
+            </p>
+          )}
+          
+          <p className="text-sm text-gray-600 mb-4">{result.description || 'No Description'}</p>
+        </div>
         
         <button 
-          onClick={showContent}
+          onClick={handleViewClick}
           className="search-button inline-block px-3 py-2 text-sm rounded-md w-fit"
         >
-          View
+          {'View'}
         </button>
       </div>
 
@@ -248,16 +287,6 @@ const Movie = ({ result }: { result: SearchResult }) => {
                       )}
                     </div>
                   </div>
-                  
-                  {/*<div>*/}
-                  {/*  <h4 className="text-lg font-semibold mb-2 text-[#a02337]">Patent Details</h4>*/}
-                  {/*  <div className="bg-gray-50 p-4 rounded-md">*/}
-                  {/*    <p className="mb-2"><span className="font-medium">Patent Number:</span> {patentData?.patent_number || 'N/A'}</p>*/}
-                  {/*    <p className="mb-2"><span className="font-medium">Patent Title:</span> {patentData?.patent_title || 'N/A'}</p>*/}
-                  {/*    <p className="mb-2"><span className="font-medium">Patent Date:</span> {patentData?.patent_date || 'N/A'}</p>*/}
-                  {/*    <p className="mb-2"><span className="font-medium">Patent Status:</span> {patentData?.patent_status || 'N/A'}</p>*/}
-                  {/*  </div>*/}
-                  {/*</div>*/}
                 </div>
                 
                 {/* AI Summary */}

@@ -24,12 +24,14 @@ const searchHandler = async (query: string, confidenceLevel: number = 0.25) => {
       sys_id: item.sys_id,
       query: query,
       ai_summary: item.ai_summary || '',
+      ai_short_summary: item.ai_short_summary || '',
       country_region: item.country_region || '',
       department: item.department || '',
       google_patent_link: item.google_patent_link || '',
       inventor: item.inventor || '',
       similarity: item.similarity || 0,
-      tech_sector: item.tech_sector || ''
+      tech_sector: item.tech_sector || '',
+      is_tech: item.is_tech || false
     }));
   } catch (error) {
     console.error("Error fetching search results:", error);
