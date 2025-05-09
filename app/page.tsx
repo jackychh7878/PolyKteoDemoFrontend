@@ -7,9 +7,9 @@ export default function Home() {
       {/* Main Content Container */}
       <div className="main-content">
         <div className="mt-6 mb-8">
-          <h2 className="page-title">Find a Patent</h2>
+          <h2 className="page-title">Find Patents & Technologies</h2>
           <p className="page-subtitle">
-            Enter your search query below to find relevant patents.
+            Enter your search query below to find relevant patents and technologies.
           </p>
         </div>
         
