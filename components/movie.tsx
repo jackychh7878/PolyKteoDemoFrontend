@@ -142,14 +142,54 @@ const Movie = ({ result }: { result: SearchResult }) => {
     <div className="relative overflow-hidden rounded-md shadow-md bg-white border border-gray-200 p-4">
       <div className="flex flex-col justify-between w-full h-full">
         <div>
-          <h2 className="text-xl font-semibold text-[#a02337] mb-2">
-            {result.official_title || result.title || 'No Title'}
-          </h2>
+          {/* Title and Relevance Score */}
+          <div className="flex justify-between items-start mb-4">
+            <h2 className="text-xl font-semibold text-[#a02337] flex-1 pr-4">
+              {result.official_title || result.title || 'No Title'}
+            </h2>
+            
+            {/* Relevance Score */}
+            {result.similarity !== undefined && (
+              <div className="flex-shrink-0">
+                <div className="relative w-12 h-12">
+                  <svg className="w-full h-full" viewBox="0 0 36 36">
+                    {/* Background circle */}
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15.91549430918954"
+                      fill="none"
+                      stroke="#e5e7eb"
+                      strokeWidth="3"
+                    />
+                    {/* Progress circle */}
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15.91549430918954"
+                      fill="none"
+                      stroke="#a02337"
+                      strokeWidth="3"
+                      strokeDasharray={`${result.similarity * 100} ${100 - result.similarity * 100}`}
+                      strokeDashoffset="25"
+                      transform="rotate(-90 18 18)"
+                      className="transition-all duration-300"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xs font-medium text-gray-600">
+                      {(result.similarity * 100).toFixed(0)}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="flex flex-wrap gap-2 mb-4">
             {result.tech_sector && (
-              <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+              <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
                 {result.tech_sector}
               </span>
             )}
@@ -162,30 +202,34 @@ const Movie = ({ result }: { result: SearchResult }) => {
             </span>
           </div>
 
-          {/* Similarity Score */}
-          {result.similarity !== undefined && (
-            <div className="mb-3">
-              <span className="text-sm text-gray-600">
-                Relevance: {(result.similarity * 100).toFixed(1)}%
-              </span>
-            </div>
-          )}
+          {/* Basic Info */}
+          <div className="mb-4 space-y-2">
+            <p className="text-sm text-gray-600">
+              <span className="font-medium">Inventor:</span> {result.inventor || 'Unknown'}
+            </p>
+            <p className="text-sm text-gray-600">
+              <span className="font-medium">Department:</span> {result.department || 'N/A'}
+            </p>
+            <p className="text-sm text-gray-600">
+              <span className="font-medium">Tech Sector:</span> {result.tech_sector || 'N/A'}
+            </p>
+          </div>
 
           {/* Short Summary */}
           {result.ai_short_summary && (
-            <p className="text-sm text-gray-600 mb-4 line-clamp-3">
-              {result.ai_short_summary}
-            </p>
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 whitespace-pre-line">
+                {result.ai_short_summary}
+              </p>
+            </div>
           )}
-          
-          <p className="text-sm text-gray-600 mb-4">{result.description || 'No Description'}</p>
         </div>
         
         <button 
           onClick={handleViewClick}
           className="search-button inline-block px-3 py-2 text-sm rounded-md w-fit"
         >
-          {'View'}
+          View
         </button>
       </div>
 
