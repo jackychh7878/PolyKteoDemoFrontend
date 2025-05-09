@@ -71,19 +71,41 @@ const SearchBar = () => {
       </div>
       
       <div className="flex items-center w-full mt-2 px-4 py-2 gap-4">
-        <label htmlFor="confidence-slider" className="text-sm text-gray-600">
-            Relevance: {confidenceLevel.toFixed(2)}
-        </label>
-        <input
-          id="confidence-slider"
-          type="range"
-          min="0"
-          max="0.5"
-          step="0.01"
-          value={confidenceLevel}
-          onChange={(e) => setConfidenceLevel(parseFloat(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#a02337]"
-        />
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600">Search Precision:</span>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setConfidenceLevel(0)}
+              className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                confidenceLevel === 0
+                  ? 'bg-[#a02337] text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Broad
+            </button>
+            <button
+              onClick={() => setConfidenceLevel(0.25)}
+              className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                confidenceLevel === 0.25
+                  ? 'bg-[#a02337] text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Balanced
+            </button>
+            <button
+              onClick={() => setConfidenceLevel(0.4)}
+              className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                confidenceLevel === 0.4
+                  ? 'bg-[#a02337] text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Precise
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
