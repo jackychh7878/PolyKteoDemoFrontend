@@ -1,23 +1,27 @@
 "use client";
-import { Action, queryAtom, searchAtom, confidenceLevelAtom } from "@/atoms/search-atoms";
+import { Action, queryAtom, searchAtom, confidenceLevelAtom, sortingOrderAtom } from "@/atoms/search-atoms";
 import { useAtom } from "jotai";
 import { Search } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+
 
 const SearchBar = () => {
   const [query, setQuery] = useAtom(queryAtom);
   const [isSearching, searchHandler] = useAtom(searchAtom);
   const [confidenceLevel, setConfidenceLevel] = useAtom(confidenceLevelAtom);
+  const [sortingOrder, setSortingOrder] = useAtom(sortingOrderAtom);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const keyPressHandler = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        searchHandler(Action.SEARCH);
+        searchHandler(Action.SEARCH, sortingOrder, currentPage, pageSize);
       } else if (e.key === "Escape") {
         setQuery("");
       }
     },
-    [searchHandler, setQuery]
+    [searchHandler, setQuery, sortingOrder, currentPage, pageSize]
   );
 
   // Keyboard Event Listener
@@ -61,7 +65,7 @@ const SearchBar = () => {
         ) : (
           <button
             onClick={() => {
-              searchHandler(Action.SEARCH);
+              searchHandler(Action.SEARCH, sortingOrder, 1, pageSize);
             }}
             className="search-button inline-block px-3 py-2 text-sm rounded-md transition-colors"
           >
@@ -69,42 +73,57 @@ const SearchBar = () => {
           </button>
         )}
       </div>
-      
+
       <div className="flex items-center w-full mt-2 px-4 py-2 gap-4">
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">Search Precision:</span>
           <div className="flex gap-2">
             <button
-              onClick={() => setConfidenceLevel(0)}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                confidenceLevel === 0
-                  ? 'bg-[#a02337] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+                onClick={() => setConfidenceLevel(0)}
+                className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                    confidenceLevel === 0
+                        ? 'bg-[#a02337] text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               Broad
             </button>
             <button
-              onClick={() => setConfidenceLevel(0.25)}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                confidenceLevel === 0.25
-                  ? 'bg-[#a02337] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+                onClick={() => setConfidenceLevel(0.25)}
+                className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                    confidenceLevel === 0.25
+                        ? 'bg-[#a02337] text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               Balanced
             </button>
             <button
-              onClick={() => setConfidenceLevel(0.4)}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                confidenceLevel === 0.4
-                  ? 'bg-[#a02337] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
+                onClick={() => setConfidenceLevel(0.4)}
+                className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                    confidenceLevel === 0.4
+                        ? 'bg-[#a02337] text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
             >
               Precise
             </button>
           </div>
+        </div>
+        <div className="search-sort ml-auto">
+          <select
+              id="control-sort"
+              value={sortingOrder}
+              onChange={(e) => setSortingOrder(e.target.value)}
+              className="px-3 py-1 text-sm rounded-md border border-gray-300 bg-white focus:outline-none focus:border-blue-400 transition-colors"
+          >
+            <option value="REL_DESC">Sort by Relevance: Descending</option>
+            <option value="REL_ASC">Sort by Relevance: Ascending</option>
+            <option value="FSD_ASC">Sort by Faculties, Schools & Departments: A-Z</option>
+            <option value="FSD_DESC">Sort by Faculties, Schools & Departments: Z-A</option>
+            <option value="DATE_DESC">Sort by Latest date: Latest</option>
+            <option value="DATE_ASC">Sort by Latest date: Oldest</option>
+          </select>
         </div>
       </div>
     </div>
