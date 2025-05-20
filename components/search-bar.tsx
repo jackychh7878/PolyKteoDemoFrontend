@@ -1,6 +1,6 @@
 "use client";
-import { Action, queryAtom, searchAtom, confidenceLevelAtom, sortingOrderAtom } from "@/atoms/search-atoms";
-import { useAtom } from "jotai";
+import { Action, queryAtom, searchAtom, confidenceLevelAtom, sortingOrderAtom, moviesAtom } from "@/atoms/search-atoms";
+import { useAtom, useAtomValue } from "jotai";
 import { Search } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -12,6 +12,7 @@ const SearchBar = () => {
   const [sortingOrder, setSortingOrder] = useAtom(sortingOrderAtom);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const results = useAtomValue(moviesAtom);
 
   const keyPressHandler = useCallback(
     (e: KeyboardEvent) => {
@@ -114,7 +115,13 @@ const SearchBar = () => {
           <select
               id="control-sort"
               value={sortingOrder}
-              onChange={(e) => setSortingOrder(e.target.value)}
+              onChange={(e) => {
+                setSortingOrder(e.target.value);
+                // Only trigger search if there are existing results
+                if (results.length > 0) {
+                  searchHandler(Action.SEARCH, e.target.value, currentPage, pageSize);
+                }
+              }}
               className="px-3 py-1 text-sm rounded-md border border-gray-300 bg-white focus:outline-none focus:border-blue-400 transition-colors"
           >
             <option value="REL_DESC">Sort by Relevance: Descending</option>
